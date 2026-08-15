@@ -12,6 +12,10 @@
   <artifactId>spring-petclinic</artifactId>
   <version>4.0.0-SNAPSHOT</version>
 
+  <!-- Course-End Project 2: packaged as a WAR so it can be deployed to a
+       standalone Tomcat server (Task 8) rather than run as a fat JAR. -->
+  <packaging>war</packaging>
+
   <name>petclinic</name>
 
   <properties>
@@ -38,6 +42,15 @@
   </properties>
 
   <dependencies>
+    <!-- Course-End Project 2: the embedded Tomcat is marked 'provided' so it is
+         NOT bundled into the WAR. The standalone Tomcat we deploy into supplies
+         the servlet container instead; bundling both causes classloader clashes. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -181,6 +194,12 @@
   </dependencies>
 
   <build>
+    <!-- Course-End Project 2: fixes the artifact name to petclinic.war, which
+         Tomcat auto-deploys under the context path /petclinic. Without this the
+         WAR is named spring-petclinic-4.0.0-SNAPSHOT.war and the URL becomes
+         /spring-petclinic-4.0.0-SNAPSHOT. -->
+    <finalName>petclinic</finalName>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
